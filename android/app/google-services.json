@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "302147624712",
+    "project_id": "personal-website-49439",
+    "storage_bucket": "personal-website-49439.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302147624712:android:e61ca399707df205db16bd",
+        "android_client_info": {
+          "package_name": "com.example.personal_website"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4Qc7vNdNzj6wvgORk1V17FRwgu7G8LW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
