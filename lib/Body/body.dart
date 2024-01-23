@@ -87,7 +87,7 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
                     'bg.PNG',
                     fit: BoxFit.contain,
                     width: double.maxFinite,
-                    height: size.height / 1.5,
+                    height: size.height / 3,
                   ),
                   Stack(
                     alignment: Alignment.bottomCenter,
@@ -96,8 +96,8 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
                       Image.asset(
                         'pic.PNG',
                         fit: BoxFit.contain,
-                        width: size.width - (size.width * 0.25 * offScreenPercentage),
-                        height: size.height - (size.height * 0.25 * offScreenPercentage),
+                        width: size.width - (size.width * 0.75 * offScreenPercentage),
+                        // height: size.height - (size.height * 0.25 * offScreenPercentage),
                         // height: size.height / 1.5,
                       ),
                       
@@ -161,46 +161,6 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
                     ],
                   );
                 })
-            // ListView(
-            // controller: _pageController,
-            // allowImplicitScrolling: true,
-            // scrollDirection: Axis.horizontal,
-            // children:[
-            // Card(
-            //   color: Colors.white,
-            //   margin: const EdgeInsets.all(20),
-            //   elevation: 8,
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(16),
-
-            //   )
-            // ),
-            // Card(
-            //   margin: const EdgeInsets.all(20),
-            //   elevation: 8,
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(16),
-
-            //   )
-            // ),
-            // Card(
-            //   margin: const EdgeInsets.all(20),
-            //   elevation: 8,
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(16),
-
-            //   )
-            // ),
-            // Card(
-            //   margin: const EdgeInsets.all(20),
-            //   elevation: 8,
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(16),
-
-            //   )
-            // ),
-            //   ]
-            // )
             );
       }),
       ScrollTransformItem(builder: (scrollOffset) {
@@ -383,3 +343,31 @@ class _Card1State extends State<Card1> {
     );
   }
 }
+
+List<Map> skills = [
+  {
+    "name": "Flutter",
+    "image":""
+  },
+  {
+    "name": "Dart",
+    "image":""
+  },
+  {
+    "name": "Firebase",
+    "image":""
+  },
+  {
+    "name": "Git",
+    "image":""
+  },
+  {
+    "name": "Java",
+    "image":""
+  },
+  {
+    "name": "C",
+    "image":""
+  },
+
+];
