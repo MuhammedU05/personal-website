@@ -144,11 +144,12 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
                           width: size.width / 7,
                         ),
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      _url = Uri.parse("https://flutter.dev/");
                       print('Clicked Card');
                       if (_url != null) {
-                        _launchUrl();
-                        launchUrl(_url!);
+                        _launchUrl(_url!);
+                        await launchUrl(_url!);
                         }
                     },
                          child: Card1(
@@ -398,8 +399,11 @@ List<Map> skills = [
 
 ];
 
-Future<void> _launchUrl() async {
-  if (!await launchUrl(_url!)) {
+Future<void> _launchUrl(Uri uRL) async {
+  if (await launchUrl(uRL)) {
+    print("url working");
+  }else
+  if (!await launchUrl(uRL)) {
     throw Exception('Could not launch $_url');
   }
 }
