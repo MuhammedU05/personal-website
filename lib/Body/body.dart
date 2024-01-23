@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../homepage.dart';
+
+Uri? _url;
 
 Widget body(BuildContext context, List<Scribble> scribbles) {
   var size = MediaQuery.of(context).size;
@@ -12,153 +14,150 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
   size.width < 600 ? isMobileView = false : true;
   return ScrollConfiguration(
     behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-    child: ScrollTransformView(children: [
-      ScrollTransformItem(builder: (scrollOffset) {
-        return Container(
-          height: size.height * .07,
-          color: Colors.grey,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("UMD",
-                    //!"$isMobileView",
-                    //?"${size.width}",
-                    style: GoogleFonts.stoke(
-                      textStyle: const TextStyle(
-                        letterSpacing: 1.2,
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        // color: Color(0xFF4C4C4C),
-                      ),
-                    )),
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.black87, //Color(0xFF4C4C4
-                  // C)),
-                  size: 40,
+    child: ScrollTransformView(
+      children: [
+        ScrollTransformItem(builder: (scrollOffset) {
+          return Container(
+            height: size.height * .07,
+            color: Colors.grey,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("UMD",
+                      //!"$isMobileView",
+                      //?"${size.width}",
+                      style: GoogleFonts.stoke(
+                        textStyle: const TextStyle(
+                          letterSpacing: 1.2,
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                          // color: Color(0xFF4C4C4C),
+                        ),
+                      )),
                 ),
-                onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
-                },
-              )
-            ],
-          ),
-        );
-      }),
-      // Container(
-      //   height: size.height / 1.5,
-      //   width: double.maxFinite,
-      //   color: Colors.grey,
-      //   child: Stack(children: [
-      //     isMobileView
-      //         ? Image.asset(
-      //             "IMG.PNG",
-      //             fit: BoxFit.cover,
-      //             // ),
-      //             // ),
-      //           )
-      //         : Padding(
-      //             padding: EdgeInsets.only(left: size.width / 3),
-      //             child: Flexible(
-      //               flex: 1,
-      //               child: Image.asset(
-      //                 "IMG.PNG",
-      //                 fit: BoxFit.cover,
-      //               ),
-      //             ),
-      //           ),
-      //   ]),
-      // ),
-      ScrollTransformItem(
-        builder: (scrollOffset) {
-          final offScreenPercentage = min(scrollOffset / size.height, 1.0);
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Static scribbles background
-              Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  Image.asset(
-                    'bg.PNG',
-                    fit: BoxFit.contain,
-                    width: double.maxFinite,
-                    height: size.height / 3,
+                IconButton(
+                  icon: const Icon(
+                    Icons.menu,
+                    color: Colors.black87, //Color(0xFF4C4C4
+                    // C)),
+                    size: 40,
                   ),
-                  Stack(
-                    alignment: Alignment.bottomCenter,
-                    clipBehavior: Clip.none,
-                    children: [
-                      Image.asset(
-                        'pic.PNG',
-                        fit: BoxFit.contain,
-                        width: size.width - (size.width * 0.75 * offScreenPercentage),
-                        // height: size.height - (size.height * 0.25 * offScreenPercentage),
-                        // height: size.height / 1.5,
-                      ),
-                      
-                    ],
-                  ),
-                  Text("MUHAMMED U",
-                          style: GoogleFonts.wallpoet(
-                            textStyle: const TextStyle(
-                              // height: 20,
-                              color: Colors.white,
-                              letterSpacing: 1.2,
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                              // color: Color(0xFF4C4C4C),
-                            ),
-                          ))
-                  // Image
-                ],
-              ),
-              //     // Animated scribbles
-              // Stack(
-              //   children: scribbles
-              //       .map((scribble) => Positioned(
-              //             left: scribble.position.dx,
-              //             top: scribble.position.dy,
-              //             child: Image.asset(
-              //               'bg.PNG',
-              //               width: 20,
-              //               height: 20,
-              //             ),
-              //           ))
-              //       .toList(),
-              // ),
-            ],
+                  onPressed: () {
+                    Scaffold.of(context).openEndDrawer();
+                  },
+                )
+              ],
+            ),
           );
-        },
-        offsetBuilder: ((scrollOffset) {
-          return Offset(0, scrollOffset * 0.7);
-        }),
-      ),
-      ScrollTransformItem(builder: (scrollOffset) {
-        return Container(
-            height: size.height / 1.5,
-            width: double.maxFinite,
-            color: Colors.black,
-            child: ListView.builder(
+        },),
+        ScrollTransformItem(
+          builder: (scrollOffset) {
+            final offScreenPercentage = min(scrollOffset / size.height, 1.0);
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Static scribbles background
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Image.asset(
+                      'bg.PNG',
+                      fit: BoxFit.contain,
+                      width: double.maxFinite,
+                      height: size.height / 3,
+                    ),
+                    Stack(
+                      alignment: Alignment.bottomCenter,
+                      clipBehavior: Clip.none,
+                      children: [
+                        Image.asset(
+                          'pic.PNG',
+                          fit: BoxFit.contain,
+                          width: size.width -
+                              (size.width * 0.75 * offScreenPercentage),
+                          // height: size.height -
+                          //     (size.height * 0.25 * offScreenPercentage),
+                          // height: size.height / 1.5,
+                        ),
+                      ],
+                    ),
+                    // Text("MUHAMMED U",
+                    //         style: GoogleFonts.wallpoet(
+                    //           textStyle: const TextStyle(
+                    //             // height: 20,
+                    //             color: Colors.white,
+                    //             letterSpacing: 1.2,
+                    //             fontSize: 40,
+                    //             fontWeight: FontWeight.bold,
+                    //             // color: Color(0xFF4C4C4C),
+                    //           ),
+                    //         ))
+                    // Image
+                  ],
+                ),
+                //     // Animated scribbles
+                // Stack(
+                //   children: scribbles
+                //       .map((scribble) => Positioned(
+                //             left: scribble.position.dx,
+                //             top: scribble.position.dy,
+                //             child: Image.asset(
+                //               'bg.PNG',
+                //               width: 20,
+                //               height: 20,
+                //             ),
+                //           ))
+                //       .toList(),
+                // ),
+              ],
+            );
+          },
+          offsetBuilder: ((scrollOffset) {
+            return Offset(0, scrollOffset * 0.7);
+          }),
+        ),
+        // ScrollTransformItem(builder: ((scrollOffset) {
+        //   return Container(
+        //     color: Colors.grey.shade300,
+        //     height: size.height * 0.2,
+        //     width: size.width,
+        //     child: Text("fd"),
+        //   );
+        // })),
+        ScrollTransformItem(
+          builder: (scrollOffset) {
+            return Container(
+              height: size.height / 3.0,
+              width: double.maxFinite,
+              color: Colors.black,
+              child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 8,
+                itemCount: skills.length,
                 itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      SizedBox(
-                        width: size.width / 7,
-                      ),
-                      Card1(
-                        yaxis: 3,
-                        image:
-                            'https://static.vecteezy.com/system/resources/thumbnails/000/600/537/small/BG58-01.jpg',
-                        text: 'GitHub',
-                      ),
-                    ],
+                      _url = Uri.parse(skills[index]['url']);
+                  return 
+                    Column(
+                      children: [
+                        SizedBox(
+                          width: size.width / 7,
+                        ),
+                  GestureDetector(
+                    onTap: () {
+                      print('Clicked Card');
+                      if (_url != null) {
+                        _launchUrl();
+                        launchUrl(_url!);
+                        }
+                    },
+                         child: Card1(
+                          yaxis: 3,
+                          image: skills[index]['image'],
+                          text: skills[index]['name'],
+                        ),)
+                      ],
+                    
                   );
                 })
             );
@@ -277,20 +276,41 @@ class _Card1State extends State<Card1> {
                     });
                   },
                   child: Stack(
+                    alignment: Alignment.center,
                     children: [
                       Container(
                         height: 300.0,
                         width: 200.0,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.fill,
                             image: AssetImage("BG_Card.jpg"),
                           ),
                         ),
                       ),
+                       Positioned(
+                        top:50,
+                        left: 50,
+                         child: Transform(
+                           transform: Matrix4.identity()
+                            ..setEntry(3, 2, 0.001)
+                            ..translate(0.0, 0.0, -20.0),
+                          alignment: FractionalOffset.center,
+                           child: Container(
+                            height: 100.0,
+                            width: 100.0,
+                            decoration:  BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage(widget.image),
+                              ),
+                            ),
+                                                 ),
+                         ),
+                       ),
                       Positioned(
                         bottom: size.height / 20,
-                        left: size.width / 15,
+                        left: size.width * 0.01,
                         child: Transform(
                           transform: Matrix4.identity()
                             ..setEntry(3, 2, 0.001)
@@ -347,27 +367,39 @@ class _Card1State extends State<Card1> {
 List<Map> skills = [
   {
     "name": "Flutter",
-    "image":""
+    "image":"logos/Google-flutter-logo.png",
+    "url":"https://flutter.dev/",
   },
   {
     "name": "Dart",
-    "image":""
+    "image":"logos/dart_logo.png",
+    "url":"https://dart.dev/",
   },
   {
     "name": "Firebase",
-    "image":""
+    "image":"logos/Firebase_logo.png",
+    "url":"https://firebase.google.com/",
   },
   {
     "name": "Git",
-    "image":""
+    "image":"logos/Git_Logo.png",
+    "url":"https://git-scm.com/",
   },
   {
     "name": "Java",
-    "image":""
+    "image":"logos/Java_Logo.png",
+    "url":"https://www.java.com/en/",
   },
   {
     "name": "C",
-    "image":""
+    "image":"logos/C_Logo.png",
+    "url":""
   },
 
 ];
+
+Future<void> _launchUrl() async {
+  if (!await launchUrl(_url!)) {
+    throw Exception('Could not launch $_url');
+  }
+}
