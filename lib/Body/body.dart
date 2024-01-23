@@ -1,144 +1,222 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
-Widget body(BuildContext context) {
+import '../homepage.dart';
+
+Widget body(BuildContext context, List<Scribble> scribbles) {
   var size = MediaQuery.of(context).size;
   bool isMobileView = true;
   size.width < 600 ? isMobileView = false : true;
   return ScrollConfiguration(
     behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-    child: ListView(children: <Widget>[
-      Container(
-        height: size.height * .07,
-        color: Colors.grey,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text("UMD",
-                  //!"$isMobileView",
-                  //?"${size.width}",
-                  style: GoogleFonts.stoke(
-                    textStyle: const TextStyle(
-                      letterSpacing: 1.2,
-                      fontSize: 36,
-                      fontWeight: FontWeight.bold,
-                      // color: Color(0xFF4C4C4C),
-                    ),
-                  )),
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.black87, //Color(0xFF4C4C4
-                // C)),
-                size: 40,
+    child: ScrollTransformView(children: [
+      ScrollTransformItem(builder: (scrollOffset) {
+        return Container(
+          height: size.height * .07,
+          color: Colors.grey,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("UMD",
+                    //!"$isMobileView",
+                    //?"${size.width}",
+                    style: GoogleFonts.stoke(
+                      textStyle: const TextStyle(
+                        letterSpacing: 1.2,
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                        // color: Color(0xFF4C4C4C),
+                      ),
+                    )),
               ),
-              onPressed: () {
-                Scaffold.of(context).openEndDrawer();
-              },
-            )
-          ],
-        ),
-      ),
-      Container(
-        height: size.height / 1.5,
-        width: double.maxFinite,
-        color: Colors.grey,
-        child: Stack(children: [
-          isMobileView
-              ? Image.asset(
-                  "IMG.PNG",
-                  fit: BoxFit.cover,
-                  // ),
-                  // ),
-                )
-              : Padding(
-                  padding: EdgeInsets.only(left: size.width / 3),
-                  child: Flexible(
-                    flex: 1,
-                    child: Image.asset(
-                      "IMG.PNG",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+              IconButton(
+                icon: const Icon(
+                  Icons.menu,
+                  color: Colors.black87, //Color(0xFF4C4C4
+                  // C)),
+                  size: 40,
                 ),
-        ]),
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+              )
+            ],
+          ),
+        );
+      }),
+      // Container(
+      //   height: size.height / 1.5,
+      //   width: double.maxFinite,
+      //   color: Colors.grey,
+      //   child: Stack(children: [
+      //     isMobileView
+      //         ? Image.asset(
+      //             "IMG.PNG",
+      //             fit: BoxFit.cover,
+      //             // ),
+      //             // ),
+      //           )
+      //         : Padding(
+      //             padding: EdgeInsets.only(left: size.width / 3),
+      //             child: Flexible(
+      //               flex: 1,
+      //               child: Image.asset(
+      //                 "IMG.PNG",
+      //                 fit: BoxFit.cover,
+      //               ),
+      //             ),
+      //           ),
+      //   ]),
+      // ),
+      ScrollTransformItem(
+        builder: (scrollOffset) {
+          final offScreenPercentage = min(scrollOffset / size.height, 1.0);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Static scribbles background
+              Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Image.asset(
+                    'bg.PNG',
+                    fit: BoxFit.contain,
+                    width: double.maxFinite,
+                    height: size.height / 1.5,
+                  ),
+                  Stack(
+                    alignment: Alignment.bottomCenter,
+                    clipBehavior: Clip.none,
+                    children: [
+                      Image.asset(
+                        'pic.PNG',
+                        fit: BoxFit.contain,
+                        width: size.width - (size.width * 0.25 * offScreenPercentage),
+                        height: size.height - (size.height * 0.25 * offScreenPercentage),
+                        // height: size.height / 1.5,
+                      ),
+                      
+                    ],
+                  ),
+                  Text("MUHAMMED U",
+                          style: GoogleFonts.wallpoet(
+                            textStyle: const TextStyle(
+                              // height: 20,
+                              color: Colors.white,
+                              letterSpacing: 1.2,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                              // color: Color(0xFF4C4C4C),
+                            ),
+                          ))
+                  // Image
+                ],
+              ),
+              //     // Animated scribbles
+              // Stack(
+              //   children: scribbles
+              //       .map((scribble) => Positioned(
+              //             left: scribble.position.dx,
+              //             top: scribble.position.dy,
+              //             child: Image.asset(
+              //               'bg.PNG',
+              //               width: 20,
+              //               height: 20,
+              //             ),
+              //           ))
+              //       .toList(),
+              // ),
+            ],
+          );
+        },
+        offsetBuilder: ((scrollOffset) {
+          return Offset(0, scrollOffset * 0.7);
+        }),
       ),
-      Container(
-          height: size.height / 1.5,
+      ScrollTransformItem(builder: (scrollOffset) {
+        return Container(
+            height: size.height / 1.5,
+            width: double.maxFinite,
+            color: Colors.black,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 8,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      SizedBox(
+                        width: size.width / 7,
+                      ),
+                      Card1(
+                        yaxis: 3,
+                        image:
+                            'https://static.vecteezy.com/system/resources/thumbnails/000/600/537/small/BG58-01.jpg',
+                        text: 'GitHub',
+                      ),
+                    ],
+                  );
+                })
+            // ListView(
+            // controller: _pageController,
+            // allowImplicitScrolling: true,
+            // scrollDirection: Axis.horizontal,
+            // children:[
+            // Card(
+            //   color: Colors.white,
+            //   margin: const EdgeInsets.all(20),
+            //   elevation: 8,
+            //   shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(16),
+
+            //   )
+            // ),
+            // Card(
+            //   margin: const EdgeInsets.all(20),
+            //   elevation: 8,
+            //   shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(16),
+
+            //   )
+            // ),
+            // Card(
+            //   margin: const EdgeInsets.all(20),
+            //   elevation: 8,
+            //   shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(16),
+
+            //   )
+            // ),
+            // Card(
+            //   margin: const EdgeInsets.all(20),
+            //   elevation: 8,
+            //   shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(16),
+
+            //   )
+            // ),
+            //   ]
+            // )
+            );
+      }),
+      ScrollTransformItem(builder: (scrollOffset) {
+        return Container(
+          height: size.height / 2,
+          width: double.maxFinite,
+          color: Colors.grey,
+        );
+      }),
+      ScrollTransformItem(builder: (scrollOffset) {
+        return Container(
+          height: size.height / 2,
           width: double.maxFinite,
           color: Colors.black,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 8,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    SizedBox(
-                      width: size.width / 7,
-                    ),
-                    Card1(
-                      yaxis: 3,
-                      image:
-                          'https://static.vecteezy.com/system/resources/thumbnails/000/600/537/small/BG58-01.jpg',
-                      text: 'GitHub',
-                    ),
-                  ],
-                );
-              })
-          // ListView(
-          // controller: _pageController,
-          // allowImplicitScrolling: true,
-          // scrollDirection: Axis.horizontal,
-          // children:[
-          // Card(
-          //   color: Colors.white,
-          //   margin: const EdgeInsets.all(20),
-          //   elevation: 8,
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(16),
-
-          //   )
-          // ),
-          // Card(
-          //   margin: const EdgeInsets.all(20),
-          //   elevation: 8,
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(16),
-
-          //   )
-          // ),
-          // Card(
-          //   margin: const EdgeInsets.all(20),
-          //   elevation: 8,
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(16),
-
-          //   )
-          // ),
-          // Card(
-          //   margin: const EdgeInsets.all(20),
-          //   elevation: 8,
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(16),
-
-          //   )
-          // ),
-          //   ]
-          // )
-          ),
-      Container(
-        height: size.height / 2,
-        width: double.maxFinite,
-        color: Colors.grey,
-      ),
-      Container(
-        height: size.height / 2,
-        width: double.maxFinite,
-        color: Colors.black,
-      ),
+        );
+      }),
     ]),
   );
 }
@@ -202,8 +280,8 @@ class _Card1State extends State<Card1> {
                 child: MouseRegion(
                   onHover: (details) {
                     double yvalue = widget.yaxis - details.localPosition.dx;
-                    double xvalue = (size.height / 3) -
-                        details.localPosition.dy;
+                    double xvalue =
+                        (size.height / 3) - details.localPosition.dy;
                     print(xvalue);
                     if (yvalue <= borderValueY && yvalue >= -borderValueY) {
                       setState(() {
@@ -226,7 +304,7 @@ class _Card1State extends State<Card1> {
                         endX = x;
                       });
                     }
-                  },//?
+                  }, //?
                   onExit: (event) {
                     print('exited');
                     setState(() {
@@ -250,10 +328,9 @@ class _Card1State extends State<Card1> {
                           ),
                         ),
                       ),
-
                       Positioned(
-                        bottom: size.height/20,
-                        left: size.width/15,
+                        bottom: size.height / 20,
+                        left: size.width / 15,
                         child: Transform(
                           transform: Matrix4.identity()
                             ..setEntry(3, 2, 0.001)
@@ -295,7 +372,6 @@ class _Card1State extends State<Card1> {
                           ),
                         ),
                       ),
-                      
                     ],
                   ),
                 ),
