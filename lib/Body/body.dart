@@ -83,7 +83,8 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
                     clipBehavior: Clip.none,
                     children: [
                       Image.asset(
-                        "images/pic.png",
+                        "images/pic.png"
+                        ,
                         fit: BoxFit.contain,
                         width: size.width -
                             (size.width * 0.75 * offScreenPercentage),
@@ -178,11 +179,12 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
                     textStyle: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
-                        overflow: TextOverflow.ellipsis,
+                        overflow: TextOverflow.visible,
                         fontWeight: FontWeight.w600,
                         letterSpacing: -1.5),
                   ),
                 ),
+                // ResponsiveTextWidget()
               ]),
         );
       }),
@@ -196,30 +198,45 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
                 itemCount: skills.length,
                 itemBuilder: (context, index) {
                   // _url = Uri.parse(skills[index]['url']);
-                  return Column(
-                    children: [
-                      SizedBox(
-                        width: size.width / 7,
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          _url = Uri.parse(skills[index]['url']);
-                          // _url = Uri.parse("https://flutter.dev/");
-                          print('Clicked Card');
-                          if (_url != null) {
-                            // _launchUrl(_url!);
-                            await launchUrl(_url!);
-                          }
-                        },
-                        child: Card1(
-                          yaxis: 3,
-                          image: skills[index]['image'],
-                          text: skills[index]['name'],
-                        ),
-                      )
-                    ],
+                  return 
+                  // Stack(
+                    // children: [
+                      // Image.asset("images/BG_Card.jpg",fit: BoxFit.fitHeight,width: 300,),
+                      Column(
+                        children: [
+                          SizedBox(
+                            width: size.width / 7,
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              _url = Uri.parse(skills[index]['url']);
+                              // _url = Uri.parse("https://flutter.dev/");
+                              print('Clicked Card');
+                              if (_url != null) {
+                                // _launchUrl(_url!);
+                                await launchUrl(_url!);
+                              }
+                            },
+                            child: Row(
+                              children: [
+                                SizedBox(height: size.height / 20,width: size.width / 20,),
+                                Card1(
+                                  yaxis: 3,
+                                  image: skills[index]['image'],
+                                  text: skills[index]['name'],
+                                ),
+                                SizedBox(height: size.height / 40,width: size.width / 40,),
+                      
+                              ],
+                            ),
+                          )
+                        ],
+                      // ),
+                    // ],
                   );
-                }));
+                },
+                ),
+                );
       }),
       ScrollTransformItem(builder: (scrollOffset) {
         return Container(
@@ -230,7 +247,12 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
             itemCount: 5,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-            return Image.asset("projects/${index + 1}.png");
+            return Row(
+              children: [
+                SizedBox(width: size.width / 20,),
+                Image.asset("projects/${index + 1}.png"),
+              ],
+            );
           }),
         );
       }),
@@ -652,3 +674,34 @@ List<Map> skills = [
   },
   {"name": "C", "image": "logos/C_Logo.png", "url": ""},
 ];
+
+
+class ResponsiveTextWidget extends StatelessWidget {
+  const ResponsiveTextWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double fontSize = constraints.maxWidth / 20; // Adjust this multiplier as needed
+
+        return Text(
+          """I have been working as a freelance Flutter developer since 2023. Over the years,\n
+                  I have participated in various projects,\n
+                  including a Todo Application that enables users to add, edit, and delete tasks while also incorporating a group chat function using Flutter and Firebase. \n
+                  Additionally, I have worked on a Group Chat Application that bears similarities to popular messaging platforms like Whatsapp. \n
+                  These experiences have allowed me to hone my skills in Flutter development and work on diverse and exciting projects.""",
+          style: GoogleFonts.openSans(
+            textStyle: TextStyle(
+              color: Colors.white,
+              fontSize: fontSize,
+              overflow: TextOverflow.visible,
+              fontWeight: FontWeight.w600,
+              letterSpacing: -1.5,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
