@@ -48,7 +48,7 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
                 IconButton(
                   icon: const Icon(
                     Icons.download,
-                    color: Colors.black87, //Color(0xFF4C4C4
+                    color: Colors.white, //Color(0xFF4C4C4
                     // C)),
                     size: 40,
                   ),
@@ -72,7 +72,7 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
                 alignment: Alignment.bottomCenter,
                 children: [
                   Image.asset(
-                    'bg.PNG',
+                    "images/bg.png",
                     fit: BoxFit.contain,
                     repeat: ImageRepeat.repeat,
                     width: double.maxFinite,
@@ -83,7 +83,7 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
                     clipBehavior: Clip.none,
                     children: [
                       Image.asset(
-                        'pic.PNG',
+                        "images/pic.png",
                         fit: BoxFit.contain,
                         width: size.width -
                             (size.width * 0.75 * offScreenPercentage),
@@ -93,18 +93,6 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
                       ),
                     ],
                   ),
-                  // Text("MUHAMMED U",
-                  //         style: GoogleFonts.wallpoet(
-                  //           textStyle: const TextStyle(
-                  //             // height: 20,
-                  //             color: Colors.white,
-                  //             letterSpacing: 1.2,
-                  //             fontSize: 40,
-                  //             fontWeight: FontWeight.bold,
-                  //             // color: Color(0xFF4C4C4C),
-                  //           ),
-                  //         ))
-                  // Image
                 ],
               ),
               //     // Animated scribbles
@@ -310,7 +298,7 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
                                     BoxShadow(
                                       blurRadius: 6,
                                       offset: const Offset(0, 4),
-                                      color: Colors.black.withOpacity(.16),
+                                      color: Colors.black.withOpacity(.15),
                                     )
                                   ]),
                               child: Image.asset("logos/github-logo.png"),
