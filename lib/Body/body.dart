@@ -129,14 +129,14 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
         ScrollTransformItem(
           builder: (scrollOffset) {
             return Container(
-              height: size.height / 3.0,
+              height: 300,
               width: double.maxFinite,
               color: Colors.black,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: skills.length,
                 itemBuilder: (context, index) {
-                      _url = Uri.parse(skills[index]['url']);
+                      // _url = Uri.parse(skills[index]['url']);
                   return 
                     Column(
                       children: [
@@ -145,10 +145,11 @@ Widget body(BuildContext context, List<Scribble> scribbles) {
                         ),
                   GestureDetector(
                     onTap: () async {
-                      _url = Uri.parse("https://flutter.dev/");
+                      _url = Uri.parse(skills[index]['url']);
+                      // _url = Uri.parse("https://flutter.dev/");
                       print('Clicked Card');
                       if (_url != null) {
-                        _launchUrl(_url!);
+                        // _launchUrl(_url!);
                         await launchUrl(_url!);
                         }
                     },
